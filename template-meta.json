@@ -4,5 +4,6 @@
   "description": "Infisical secrets manager with the admin created and sign-up closed on boot",
   "category": "Authentication",
   "image": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/infisical.svg",
-  "card_desc": "Infisical secrets manager: env vars, API keys and certificates for your team and apps, with the admin created and public sign-up closed on first boot."
+  "card_desc": "Infisical secrets manager: env vars, API keys and certificates for your team and apps, with the admin created and public sign-up closed on first boot.",
+  "id": "6963029d-cd9f-4c49-b895-1f51ee3e1913"
 }

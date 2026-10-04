@@ -156,7 +156,7 @@
       "name": "Redis",
       "build": {},
       "deploy": {
-        "startCommand": "/bin/sh -c \"exec docker-entrypoint.sh redis-server --requirepass $REDIS_PASSWORD --appendonly yes\"",
+        "startCommand": "/bin/sh -c \"chown -R redis:redis /data && exec docker-entrypoint.sh redis-server --requirepass $REDIS_PASSWORD --appendonly yes\"",
         "healthcheckPath": null,
         "restartPolicyType": "ON_FAILURE",
         "restartPolicyMaxRetries": 10

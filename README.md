@@ -40,7 +40,7 @@ The stack is three services: Infisical, Postgres and Redis.
 
 **Teammates.** Invite them under Organization → Access Control. Railway only allows outbound SMTP on the Pro plan, so on other plans the invitation email is not sent; Infisical shows an invite link you can copy and send yourself. To send email on Pro, fill in the `SMTP_*` variables.
 
-**Memory.** Around 900 MB at idle, nearly all of it Infisical's Node.js process, plus about 50 MB for Postgres and 10 MB for Redis. That is more than the Trial plan gives, so deploy on Hobby or above.
+**Memory.** About 1.5 GB at idle as Railway measures it: 1.1 GB for Infisical's Node.js process, 0.4 GB for Postgres and 10 MB for Redis. That is more than the Trial plan gives, so deploy on Hobby or above.
 
 **Backups.** Everything lives in Postgres: enable Railway's volume backups on the Postgres volume, and keep `ENCRYPTION_KEY` with them.
 
