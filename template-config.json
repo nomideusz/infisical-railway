@@ -1,0 +1,184 @@
+{
+  "services": {
+    "54608c18-dfc4-4e3c-ab35-cdc89b29b2d5": {
+      "icon": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/infisical.svg",
+      "name": "Infisical",
+      "build": {},
+      "deploy": {
+        "startCommand": null,
+        "healthcheckPath": "/api/status",
+        "restartPolicyType": "ON_FAILURE",
+        "restartPolicyMaxRetries": 10
+      },
+      "source": {
+        "repo": "https://github.com/nomideusz/infisical-railway",
+        "rootDirectory": "/infisical"
+      },
+      "networking": {
+        "serviceDomains": {
+          "<hasDomain>": {}
+        }
+      },
+      "variables": {
+        "PORT": {
+          "defaultValue": "8080",
+          "description": "Port Infisical listens on - leave as is",
+          "isOptional": false
+        },
+        "INFISICAL_ADMIN_EMAIL": {
+          "defaultValue": "",
+          "description": "Your email - the instance admin login, created on first boot",
+          "isOptional": false
+        },
+        "INFISICAL_ADMIN_PASSWORD": {
+          "defaultValue": "${{secret(24, \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\")}}",
+          "description": "Admin password, set on first boot only - copy it from here to log in, then change it in Infisical",
+          "isOptional": false
+        },
+        "INFISICAL_ORGANIZATION": {
+          "defaultValue": "My Company",
+          "description": "Name of the first organization, created on first boot",
+          "isOptional": false
+        },
+        "ENCRYPTION_KEY": {
+          "defaultValue": "${{secret(32, \"0123456789abcdef\")}}",
+          "description": "Root key that encrypts every secret. BACK IT UP - if it is lost or changed, stored secrets cannot be decrypted",
+          "isOptional": false
+        },
+        "AUTH_SECRET": {
+          "defaultValue": "${{secret(44, \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\")}}",
+          "description": "Signs login sessions - changing it logs everyone out",
+          "isOptional": false
+        },
+        "SITE_URL": {
+          "defaultValue": "https://${{RAILWAY_PUBLIC_DOMAIN}}",
+          "description": "Public URL of Infisical - set it to your custom domain after adding one",
+          "isOptional": false
+        },
+        "HTTPS_ENABLED": {
+          "defaultValue": "true",
+          "description": "Railway serves the domain over HTTPS, so session cookies are marked Secure",
+          "isOptional": false
+        },
+        "DB_CONNECTION_URI": {
+          "defaultValue": "postgresql://${{Postgres.POSTGRES_USER}}:${{Postgres.POSTGRES_PASSWORD}}@${{Postgres.RAILWAY_PRIVATE_DOMAIN}}:5432/${{Postgres.POSTGRES_DB}}",
+          "description": "Postgres on the private network",
+          "isOptional": false
+        },
+        "REDIS_URL": {
+          "defaultValue": "redis://default:${{Redis.REDIS_PASSWORD}}@${{Redis.RAILWAY_PRIVATE_DOMAIN}}:6379?family=0",
+          "description": "Redis on the private network (family=0 lets it connect over IPv6)",
+          "isOptional": false
+        },
+        "SMTP_HOST": {
+          "defaultValue": "",
+          "description": "Optional SMTP server for invites and alerts (Railway allows outbound SMTP on Pro only)",
+          "isOptional": true
+        },
+        "SMTP_PORT": {
+          "defaultValue": "587",
+          "description": "SMTP port",
+          "isOptional": true
+        },
+        "SMTP_USERNAME": {
+          "defaultValue": "",
+          "description": "SMTP username",
+          "isOptional": true
+        },
+        "SMTP_PASSWORD": {
+          "defaultValue": "",
+          "description": "SMTP password",
+          "isOptional": true
+        },
+        "SMTP_FROM_ADDRESS": {
+          "defaultValue": "",
+          "description": "Sender address for Infisical emails",
+          "isOptional": true
+        },
+        "RAILWAY_HEALTHCHECK_TIMEOUT_SEC": {
+          "defaultValue": "600",
+          "description": "First boot runs the database migrations before the health check can pass",
+          "isOptional": false
+        }
+      }
+    },
+    "6355c2eb-b162-4609-b3b8-1c51c393448d": {
+      "icon": "https://devicons.railway.app/i/postgresql.svg",
+      "name": "Postgres",
+      "build": {},
+      "deploy": {
+        "startCommand": null,
+        "healthcheckPath": null,
+        "restartPolicyType": "ON_FAILURE",
+        "restartPolicyMaxRetries": 10
+      },
+      "source": {
+        "image": "ghcr.io/railwayapp-templates/postgres-ssl:17"
+      },
+      "networking": {
+        "serviceDomains": {}
+      },
+      "volumeMounts": {
+        "c2b8c643-ef74-43c5-a3ec-25347528e305": {
+          "mountPath": "/var/lib/postgresql/data"
+        }
+      },
+      "variables": {
+        "POSTGRES_DB": {
+          "defaultValue": "infisical",
+          "description": "Database name",
+          "isOptional": false
+        },
+        "POSTGRES_USER": {
+          "defaultValue": "infisical",
+          "description": "Database user",
+          "isOptional": false
+        },
+        "POSTGRES_PASSWORD": {
+          "defaultValue": "${{secret(32, \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\")}}",
+          "description": "Auto-generated database password",
+          "isOptional": false
+        },
+        "PGDATA": {
+          "defaultValue": "/var/lib/postgresql/data/pgdata",
+          "description": "Data subdirectory - keeps Postgres happy on Railway volumes",
+          "isOptional": false
+        },
+        "RAILWAY_DEPLOYMENT_DRAINING_SECONDS": {
+          "defaultValue": "60",
+          "description": "Time for Postgres to shut down cleanly on redeploy",
+          "isOptional": false
+        }
+      }
+    },
+    "22f4d2ca-c8cc-4555-a5d3-80059284cd7d": {
+      "icon": "https://devicons.railway.app/i/redis.svg",
+      "name": "Redis",
+      "build": {},
+      "deploy": {
+        "startCommand": "/bin/sh -c \"exec docker-entrypoint.sh redis-server --requirepass $REDIS_PASSWORD --appendonly yes\"",
+        "healthcheckPath": null,
+        "restartPolicyType": "ON_FAILURE",
+        "restartPolicyMaxRetries": 10
+      },
+      "source": {
+        "image": "redis:8.10.2-alpine"
+      },
+      "networking": {
+        "serviceDomains": {}
+      },
+      "volumeMounts": {
+        "0e92ce18-5c01-4bbe-9b50-5937ea419e7f": {
+          "mountPath": "/data"
+        }
+      },
+      "variables": {
+        "REDIS_PASSWORD": {
+          "defaultValue": "${{secret(32, \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\")}}",
+          "description": "Auto-generated Redis password",
+          "isOptional": false
+        }
+      }
+    }
+  }
+}

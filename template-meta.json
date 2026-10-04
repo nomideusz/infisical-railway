@@ -1,0 +1,8 @@
+{
+  "name": "Infisical | Open-Source Secrets Manager and Vault Alternative",
+  "short_name": "Infisical Secrets",
+  "description": "Infisical secrets manager with the admin created and sign-up closed on boot",
+  "category": "Authentication",
+  "image": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/infisical.svg",
+  "card_desc": "Infisical secrets manager: env vars, API keys and certificates for your team and apps, with the admin created and public sign-up closed on first boot."
+}
