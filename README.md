@@ -1,6 +1,6 @@
 # Deploy and Host Infisical on Railway
 
-[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/new/template/infisical-secrets?utm_medium=integration&utm_source=button&utm_campaign=infisical-secrets)
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/new/template/infisical-secrets?referralCode=sLjDXb&utm_medium=integration&utm_source=button&utm_campaign=infisical-secrets)
 
 [Infisical](https://infisical.com/) is the open-source secrets manager: environment variables, API keys, database credentials and certificates in one place, with per-environment projects, secret versioning and point-in-time recovery, access controls, audit logs, and a CLI, SDKs and Kubernetes operator that inject secrets into your apps. This template runs Infisical 0.165.16 on the official image with Postgres and Redis, and creates your admin account on first boot, so Infisical's admin sign-up page is never open to whoever finds the URL first.
 
