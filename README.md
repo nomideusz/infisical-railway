@@ -30,7 +30,7 @@ The stack is three services: Infisical, Postgres and Redis.
 
 - [Infisical documentation](https://infisical.com/docs/documentation/getting-started/introduction)
 - [Infisical self-hosting guide](https://infisical.com/docs/self-hosting/overview)
-- [Template source on GitHub](https://github.com/nomideusz/infisical-railway)
+- [Template source on GitHub](https://github.com/two-workspaces/infisical)
 
 ### Implementation Details
 
